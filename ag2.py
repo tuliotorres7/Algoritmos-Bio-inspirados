@@ -2,6 +2,8 @@ import random
 import math
 import numpy as np
 from funcao_AG import func_obj
+import matplotlib
+matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as plt
 from statistics import mean
 #from matplotlib import pyplot as plt
@@ -20,8 +22,8 @@ nElitismo = []
 vetMin = []
 vetMax = []
 vetIndexMin = []
-alpha = 0.2
-beta = 0.4
+alpha = 0.75
+beta = 0.25
 class individuo:
     def __init__(self,x,dimensao):
         self.x = []
@@ -44,7 +46,7 @@ def avaliaFitness(minNum,maxNum,populacao):
     for x in range(len(fit)):
         if(fit[x]==0):
             fit[x]=-0.0001
-        fit[x]=1/fit[x]
+        fit[x]=fit[x]*-1
     return fit
 
 def roleta(nPop,fit,populacao):
@@ -127,7 +129,7 @@ def mutacao(populacao,taxaMutacao,dimensao,maxNum,minNum):
     for ind in populacao:
         rand = random.random()#confirmar se é assim que define os valores max min
         if rand < taxaMutacao:
-            rand = random.randint(0,dimensao + 1)
+            rand = random.randint(0,dimensao-1)
             ind.x[rand] = random.uniform(minNum,maxNum)
     return populacao
 
@@ -162,16 +164,21 @@ while(g<nGer):
     vetMin.append(min(fitness))
     vetMax.append(max(fitness))
     #vetIndexMin.append(index(min(fitness)))
+    print(min(fitness))
     g=g+1
 aux = []
 for x in range(1,nGer+1):
     aux.append(x)
-plt.plot(vetMin)
-plt.plot(vetMax)
-res = [mean(values) for values in zip(vetMin,vetMax)]
-plt.plot(res)
-plt.title("Max, Min , Média por Geração")
-plt.show()
+
+
+#fig = plt.figure()
+#plt.plot(vetMin)
+#plt.plot(vetMax)
+#res = [mean(values) for values in zip(vetMin,vetMax)]
+#plt.plot(res)
+#plt.title("Max, Min , Média por Geraçãossss")
+#plt.show()
+#fig.savefig('fig.png')
 #print(populacao)
 
 
